@@ -2,7 +2,7 @@ services:
   - type: web
     name: n8n
     env: node
-    buildCommand: pnpm install && pnpm build
+    buildCommand: export NODE_OPTIONS="--max-old-space-size=4096" && pnpm install && pnpm build
     startCommand: pnpm start
     # Health check configuration
     healthCheckPath: /healthz
