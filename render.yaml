@@ -4,17 +4,22 @@ services:
     env: node
     runtime: node
     nodeVersion: 20.11.1
-    buildCommand: export NODE_OPTIONS="--max-old-space-size=4096" && pnpm install && pnpm build
+    buildCommand: NODE_ENV=production pnpm install --frozen-lockfile && pnpm build
     startCommand: pnpm start
     # Health check configuration
     healthCheckPath: /healthz
     # Auto-deploy settings
     autoDeploy: true
     # Resource allocation
-    plan: starter # You can upgrade to 'standard' or 'pro' based on your needs
+    plan: starter
+    scaling:
+      minInstances: 1
+      maxInstances: 1
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NODE_OPTIONS
+        value: "--max-old-space-size=2048"
       - key: N8N_HOST
         value: ${RENDER_EXTERNAL_URL}
       - key: N8N_PROTOCOL
@@ -62,14 +67,13 @@ services:
       - key: N8N_BASIC_AUTH_ACTIVE
         value: "true"
       - key: N8N_BASIC_AUTH_USER
-        sync: false # You'll need to set this manually in Render dashboard
+        sync: false
       - key: N8N_BASIC_AUTH_PASSWORD
-        sync: false # You'll need to set this manually in Render dashboard
+        sync: false
 
 databases:
   - name: n8n-db
     databaseName: n8n
     user: n8n
-    plan: free # Using the free tier for development
-    # Database configuration
-    ipAllowList: [] # Empty means only internal access 
+    plan: free
+    ipAllowList: [] 
