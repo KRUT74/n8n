@@ -4,7 +4,6 @@ services:
     env: node
     buildCommand: pnpm install && pnpm build
     startCommand: pnpm start
-    nodeVersion: 20.15.0
     # Health check configuration
     healthCheckPath: /healthz
     # Auto-deploy settings
