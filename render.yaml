@@ -11,12 +11,7 @@ services:
       nvm use 20.11.1 && 
       NODE_ENV=production pnpm install --frozen-lockfile && 
       pnpm build
-    startCommand: |
-      export NVM_DIR="$HOME/.nvm" && 
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && 
-      nvm use 20.11.1 && 
-      cd packages/cli && 
-      node bin/n8n
+    startCommand: ./start.sh
     # Health check configuration
     healthCheckPath: /healthz
     # Auto-deploy settings
