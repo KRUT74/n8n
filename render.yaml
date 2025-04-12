@@ -68,6 +68,4 @@ databases:
   - name: n8n-db
     plan: starter # Consider upgrading based on your workflow volume
     # Database configuration
-    ipAllowList: [] # Empty means only internal access
-    # Backup configuration
-    backupRetentionPeriod: 7 # Days to retain backups 
+    ipAllowList: [] # Empty means only internal access 
