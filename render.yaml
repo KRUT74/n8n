@@ -4,12 +4,9 @@ services:
     env: node
     runtime: node
     buildCommand: |
-      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash && 
-      export NVM_DIR="$HOME/.nvm" && 
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && 
-      nvm install 20.11.1 && 
-      nvm use 20.11.1 && 
-      NODE_ENV=production pnpm install --frozen-lockfile && 
+      npm install -g node@20.11.1 && \
+      node --version && \
+      NODE_ENV=production pnpm install --frozen-lockfile && \
       pnpm build
     startCommand: ./start.sh
     # Health check configuration
