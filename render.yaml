@@ -66,6 +66,8 @@ services:
 
 databases:
   - name: n8n-db
-    plan: starter # Consider upgrading based on your workflow volume
+    databaseName: n8n
+    user: n8n
+    plan: free # Using the free tier for development
     # Database configuration
     ipAllowList: [] # Empty means only internal access 
