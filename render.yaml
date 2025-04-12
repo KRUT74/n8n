@@ -3,22 +3,20 @@ services:
     name: n8n
     env: node
     runtime: node
-    nodeVersion: 20.11.1
     buildCommand: |
-      curl -fsSL https://fnm.vercel.app/install | bash && 
-      export PATH="/root/.local/share/fnm:$PATH" && 
-      eval "`fnm env`" && 
-      fnm install 20.11.1 && 
-      fnm use 20.11.1 && 
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash && 
+      export NVM_DIR="$HOME/.nvm" && 
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && 
+      nvm install 20.11.1 && 
+      nvm use 20.11.1 && 
       NODE_ENV=production pnpm install --frozen-lockfile && 
       pnpm build
     startCommand: |
-      curl -fsSL https://fnm.vercel.app/install | bash && 
-      export PATH="/root/.local/share/fnm:$PATH" && 
-      eval "`fnm env`" && 
-      fnm install 20.11.1 && 
-      fnm use 20.11.1 && 
-      pnpm start
+      export NVM_DIR="$HOME/.nvm" && 
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && 
+      nvm use 20.11.1 && 
+      cd packages/cli && 
+      node bin/n8n
     # Health check configuration
     healthCheckPath: /healthz
     # Auto-deploy settings
