@@ -5,6 +5,12 @@ services:
     buildCommand: pnpm install && pnpm build
     startCommand: pnpm start
     nodeVersion: 20.15.0
+    # Health check configuration
+    healthCheckPath: /healthz
+    # Auto-deploy settings
+    autoDeploy: true
+    # Resource allocation
+    plan: starter # You can upgrade to 'standard' or 'pro' based on your needs
     envVars:
       - key: NODE_ENV
         value: production
@@ -16,6 +22,7 @@ services:
         value: "3000"
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
+      # Database configuration
       - key: DB_TYPE
         value: postgresdb
       - key: DB_POSTGRESDB_HOST
@@ -38,7 +45,30 @@ services:
         fromDatabase:
           name: n8n-db
           property: password
+      # Additional recommended configurations
+      - key: N8N_EDITOR_BASE_URL
+        value: ${RENDER_EXTERNAL_URL}
+      - key: N8N_METRICS
+        value: "true"
+      - key: N8N_DIAGNOSTICS_ENABLED
+        value: "true"
+      - key: N8N_HIRING_BANNER_ENABLED
+        value: "false"
+      - key: N8N_VERSION_NOTIFICATIONS_ENABLED
+        value: "true"
+      - key: N8N_USER_MANAGEMENT_DISABLED
+        value: "false"
+      - key: N8N_BASIC_AUTH_ACTIVE
+        value: "true"
+      - key: N8N_BASIC_AUTH_USER
+        sync: false # You'll need to set this manually in Render dashboard
+      - key: N8N_BASIC_AUTH_PASSWORD
+        sync: false # You'll need to set this manually in Render dashboard
 
 databases:
   - name: n8n-db
-    plan: starter 
+    plan: starter # Consider upgrading based on your workflow volume
+    # Database configuration
+    ipAllowList: [] # Empty means only internal access
+    # Backup configuration
+    backupRetentionPeriod: 7 # Days to retain backups 
