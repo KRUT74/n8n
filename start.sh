@@ -6,7 +6,7 @@ echo "Node version: $(node --version)"
 echo "Node path: $(which node)"
 
 # Install dependencies
-npm install
+pnpm install
 
-# Start the proxy server and n8n
-npm run dev:n8n 
+# Start n8n directly
+cd packages/cli && NODE_ENV=production node bin/n8n 
