@@ -44,7 +44,9 @@
     "test:nodes": "turbo run test:nodes --concurrency=1",
     "watch": "turbo run watch --parallel",
     "webhook": "./packages/cli/bin/n8n webhook",
-    "worker": "./packages/cli/bin/n8n worker"
+    "worker": "./packages/cli/bin/n8n worker",
+    "start:n8n": "cd packages/cli && NODE_ENV=production node bin/n8n",
+    "dev:n8n": "concurrently \"npm run start\" \"npm run start:n8n\""
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
@@ -72,7 +74,8 @@
     "tsc-watch": "^6.2.0",
     "turbo": "2.3.3",
     "typescript": "*",
-    "zx": "^8.1.4"
+    "zx": "^8.1.4",
+    "concurrently": "^8.2.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
