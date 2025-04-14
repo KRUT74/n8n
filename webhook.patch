@@ -1,0 +1,17 @@
+diff --git a/packages/cli/src/commands/start.ts b/packages/cli/src/commands/start.ts
+index 1234567..89abcde 100644
+--- a/packages/cli/src/commands/start.ts
++++ b/packages/cli/src/commands/start.ts
+@@ -100,6 +100,12 @@ export class Start extends Command {
+ 				config.set('webhookUrl', process.env.N8N_WEBHOOK_URL);
+ 				config.set('webhookTestUrl', process.env.N8N_WEBHOOK_TEST_URL);
+ 				config.set('webhookTunnelUrl', process.env.WEBHOOK_TUNNEL_URL);
++				// Force webhook URLs for Render deployment
++				if (process.env.RENDER) {
++					config.set('webhookUrl', 'https://n8n-krut74.onrender.com');
++					config.set('webhookTestUrl', 'https://n8n-krut74.onrender.com');
++					config.set('webhookTunnelUrl', 'https://n8n-krut74.onrender.com');
++				}
+ 				config.set('editorBaseUrl', process.env.N8N_EDITOR_BASE_URL);
+ 				config.set('protocol', process.env.N8N_PROTOCOL);
+ 				config.set('host', process.env.N8N_HOST); 
