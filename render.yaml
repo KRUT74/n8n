@@ -24,7 +24,7 @@ services:
       - key: NODE_OPTIONS
         value: "--max-old-space-size=2048"
       - key: N8N_HOST
-        value: n8n-krut74.onrender.com
+        value: 0.0.0.0
       - key: N8N_PROTOCOL
         value: https
       - key: N8N_PORT
@@ -37,6 +37,14 @@ services:
         value: https://n8n-krut74.onrender.com
       - key: WEBHOOK_TUNNEL_URL
         value: https://n8n-krut74.onrender.com
+      - key: N8N_EDITOR_BASE_URL
+        value: https://n8n-krut74.onrender.com
+      - key: N8N_PATH
+        value: /
+      - key: N8N_PUBLIC_API_DISABLED
+        value: "false"
+      - key: N8N_WEBHOOK_DEBUG
+        value: "true"
       # Database configuration
       - key: DB_TYPE
         value: postgresdb
@@ -61,8 +69,6 @@ services:
           name: n8n-db
           property: password
       # Additional recommended configurations
-      - key: N8N_EDITOR_BASE_URL
-        value: https://n8n-krut74.onrender.com
       - key: N8N_METRICS
         value: "true"
       - key: N8N_DIAGNOSTICS_ENABLED
