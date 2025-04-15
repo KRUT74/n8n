@@ -32,19 +32,21 @@ services:
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
       - key: N8N_WEBHOOK_URL
-        value: https://n8n-krut74.onrender.com
+        value: https://n8n-bja3.onrender.com
       - key: N8N_WEBHOOK_TEST_URL
-        value: https://n8n-krut74.onrender.com
+        value: https://n8n-bja3.onrender.com
       - key: WEBHOOK_TUNNEL_URL
-        value: https://n8n-krut74.onrender.com
+        value: https://n8n-bja3.onrender.com
       - key: N8N_EDITOR_BASE_URL
-        value: https://n8n-krut74.onrender.com
+        value: https://n8n-bja3.onrender.com
       - key: N8N_PATH
         value: /
       - key: N8N_PUBLIC_API_DISABLED
         value: "false"
       - key: N8N_WEBHOOK_DEBUG
         value: "true"
+      - key: RENDER_EXTERNAL_URL
+        value: https://n8n-bja3.onrender.com
       # Database configuration
       - key: DB_TYPE
         value: postgresdb
