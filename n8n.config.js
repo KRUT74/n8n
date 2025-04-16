@@ -30,7 +30,7 @@ module.exports = {
       active: true,
       user: process.env.N8N_BASIC_AUTH_USER,
       password: process.env.N8N_BASIC_AUTH_PASSWORD,
-      excludePaths: ['/googlec3a587cefb639c53.html'],
+      excludePaths: ['/googlec3a587cefb639c53.html', '/'],
     },
   },
   metrics: {
