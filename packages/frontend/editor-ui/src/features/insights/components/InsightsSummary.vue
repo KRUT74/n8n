@@ -5,15 +5,17 @@ import { VIEWS } from '@/constants';
 import {
 	INSIGHT_IMPACT_TYPES,
 	INSIGHTS_UNIT_IMPACT_MAPPING,
+	TIME_RANGE_LABELS,
 } from '@/features/insights/insights.constants';
 import type { InsightsSummaryDisplay } from '@/features/insights/insights.types';
-import type { InsightsSummary } from '@n8n/api-types';
+import type { InsightsDateRange, InsightsSummary } from '@n8n/api-types';
 import { smartDecimal } from '@n8n/utils/number/smartDecimal';
-import { computed, ref, useCssModule } from 'vue';
+import { computed, useCssModule } from 'vue';
 import { useRoute } from 'vue-router';
 
 const props = defineProps<{
 	summary: InsightsSummaryDisplay;
+	timeRange: InsightsDateRange['key'];
 	loading?: boolean;
 }>();
 
@@ -22,8 +24,6 @@ const route = useRoute();
 const $style = useCssModule();
 const telemetry = useTelemetry();
 
-const lastNDays = ref(7);
-
 const summaryTitles = computed<Record<keyof InsightsSummary, string>>(() => ({
 	total: i18n.baseText('insights.banner.title.total'),
 	failed: i18n.baseText('insights.banner.title.failed'),
@@ -31,6 +31,11 @@ const summaryTitles = computed<Record<keyof InsightsSummary, string>>(() => ({
 	timeSaved: i18n.baseText('insights.banner.title.timeSaved'),
 	averageRunTime: i18n.baseText('insights.banner.title.averageRunTime'),
 }));
+
+const summaryHasNoData = computed(() => {
+	const summaryValues = Object.values(props.summary);
+	return summaryValues.length > 0 && summaryValues.every((summary) => !summary.value);
+});
 
 const summaryWithRouteLocations = computed(() =>
 	props.summary.map((s) => ({
@@ -79,20 +84,26 @@ const trackTabClick = (insightType: keyof InsightsSummary) => {
 								{{ summaryTitles[id] }}
 							</N8nTooltip>
 						</strong>
-						<small :class="$style.days">{{
-							i18n.baseText('insights.lastNDays', { interpolate: { count: lastNDays } })
-						}}</small>
-						<span v-if="value === 0 && id === 'timeSaved'" :class="$style.empty">
+						<small :class="$style.days">
+							{{ TIME_RANGE_LABELS[timeRange] }}
+						</small>
+						<span v-if="summaryHasNoData" :class="$style.noData">
+							<N8nTooltip placement="bottom">
+								<template #content>
+									{{ i18n.baseText('insights.banner.noData.tooltip') }}
+								</template>
+								<em>{{ i18n.baseText('insights.banner.noData') }}</em>
+							</N8nTooltip>
+						</span>
+						<span v-else-if="value === 0 && id === 'timeSaved'" :class="$style.empty">
 							<em>--</em>
 							<small>
 								<N8nTooltip placement="bottom">
 									<template #content>
 										<i18n-t keypath="insights.banner.timeSaved.tooltip">
-											<template #link>
-												<a href="#">{{
-													i18n.baseText('insights.banner.timeSaved.tooltip.link.text')
-												}}</a>
-											</template>
+											<template #link>{{
+												i18n.baseText('insights.banner.timeSaved.tooltip.link.text')
+											}}</template>
 										</i18n-t>
 									</template>
 									<N8nIcon :class="$style.icon" icon="info-circle" />
@@ -206,7 +217,7 @@ const trackTabClick = (insightType: keyof InsightsSummary) => {
 						.icon {
 							height: 20px;
 							width: 8px;
-							top: -3px;
+							top: 5px;
 							transform: translateY(0);
 							color: var(--color-text-light);
 						}
@@ -241,6 +252,13 @@ const trackTabClick = (insightType: keyof InsightsSummary) => {
 				font-weight: var(--font-weight-bold);
 				white-space: nowrap;
 			}
+		}
+	}
+
+	.noData {
+		em {
+			color: var(--color-text-light);
+			font-size: var(--font-size-m);
 		}
 	}
 }
